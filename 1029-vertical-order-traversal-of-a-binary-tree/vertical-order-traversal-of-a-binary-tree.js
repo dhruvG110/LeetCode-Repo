@@ -29,28 +29,20 @@ var verticalTraversal = function (root) {
             if (node.left != null) queue.push([node.left, row + 1, col - 1]);
             if (node.right != null) queue.push([node.right, row + 1, col + 1]);
         }
-        ans.push(level);
     }
     let vT = [];
-    let maxIndex = -Infinity;
-    let minIndex = Infinity;
-    for (let [key, val] of map) {
-        maxIndex = Math.max(maxIndex, key);
-        minIndex = Math.min(minIndex, key);
-    }
     for (let [col, arr] of map) {
         arr.sort((a, b) => {
-            if (a[0] === b[0]) return a[1] - b[1];
-            return a[0] - b[0];
+            if (a[0] !== b[0]) return a[0] - b[0];
+            return a[1] - b[1];
         });
     }
-    for (let i = minIndex; i <= maxIndex; i++) {
+    let cols = [...map.keys()].sort((a, b) => a - b);
 
-        if (!map.has(i)) continue;
-
+    for (let col of cols) {
         let temp = [];
 
-        for (let [row, val] of map.get(i)) {
+        for (let [row, val] of map.get(col)) {
             temp.push(val);
         }
 
