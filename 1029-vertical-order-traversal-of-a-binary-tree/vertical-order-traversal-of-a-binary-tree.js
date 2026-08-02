@@ -29,7 +29,6 @@ var verticalTraversal = function (root) {
             if (node.left != null) queue.push([node.left, row + 1, col - 1]);
             if (node.right != null) queue.push([node.right, row + 1, col + 1]);
         }
-        ans.push(level);
     }
     let vT = [];
     for (let [col, arr] of map) {
