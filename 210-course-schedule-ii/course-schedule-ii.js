@@ -4,29 +4,28 @@
  * @return {number[]}
  */
 var findOrder = function(numCourses, edges) {
-    let ans = [];
-    let graph = Array.from({length : numCourses} ,()=>[]);
-    for(let [u ,v] of edges){
+    let indegree = Array(numCourses).fill(0);
+    let graph = Array.from({length: numCourses}, () => []);
+    for(let [u,v] of edges){
         graph[v].push(u);
+        indegree[u]++;
     }
-    const visited = Array(graph.length).fill(false);
-    const pathVisited = Array(graph.length).fill(false);
-    const dfs =(node)=>{
-        visited[node] = true;
-        pathVisited[node] = true;
-        for(let neighbour of graph[node]){
-            if(!visited[neighbour]){
-                if(!dfs(neighbour))return false;
-            }else if(pathVisited[neighbour])return false;
-        }
-        pathVisited[node] = false;
+    let queue =[];
+    for(let i = 0;i<numCourses;i++){
+        if(indegree[i] == 0)queue.push(i);
+    }
+    let ans = [];
+    while(queue.length > 0){
+        let node = queue.shift();
         ans.push(node);
-        return true;
-    }
-    for(let i = 0;i<graph.length;i++){
-        if(!visited[i]){
-            if(!dfs(i))return [];
+        for(let neighbour of graph[node]){
+            indegree[neighbour]--;
+            if(indegree[neighbour] == 0) queue.push(neighbour);
         }
     }
-    return ans.reverse();
+    if(ans.length == numCourses){
+        return ans;
+    }else{
+        return [];
+    }
 };
