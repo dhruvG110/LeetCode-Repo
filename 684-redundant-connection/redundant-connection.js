@@ -7,7 +7,6 @@ var findRedundantConnection = function(edges) {
     for(let i = 0;i<edges.length + 1;i++){
         parent.push(i);
     }
-    console.log(parent);
     const find =(x)=>{
         while(x != parent[x]){
             x = parent[x];
